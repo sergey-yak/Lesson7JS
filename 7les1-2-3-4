@@ -1,0 +1,283 @@
+lesson 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <style>
+    .nav {
+      margin-top: 30px;
+    }
+    #inputDiv {
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+<!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="nav-item" data-text="T1">
+      <a class="nav-link active" href="#">Link 1</a>
+    </li>
+    <li class="nav-item" data-text="X6">
+      <a class="nav-link" href="#">Link 2</a>
+    </li>
+    <li class="nav-item" data-text="H99">
+      <a class="nav-link" href="#">Link 3</a>
+    </li>
+  </ul>
+
+  <div class="text">Уверен, ты справишься с этим заданием!</div>
+
+  <input type="range" min="20" max="100">
+  <div id="inputDiv">
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat, expedita.
+  </div>
+</div>
+
+<script>
+  "use strict";
+
+   
+  /*
+  1. Необходимо сделать так, чтобы при клике на элемент с классом "nav-link",
+  данному элементу ставился класс "active", при этом у всхе других элементов с
+  классом nav-link данных элемент отсутствовал, необходимо использовать
+  делегирование события.
+  Также необходимо чтобы в div с классом text ставился нужный текст, который
+  прописан в объекте panelText (вам необходимо определить самостоятельно, что
+  общего между данной в html версткой и объектом ниже).
+  */
+
+
+
+const panelText = {
+    T1: "Уверен, ты справишься с этим заданием!",
+    X6: "Знаю, программирование это нелегко.",
+    H99: "Однако, программирование, в итоге, принесет свои плоды.",
+  };
+
+let activeLinkEl = document.querySelector('.active');
+const textDivEl = document.querySelector('div.text');
+document.querySelector('.nav-tabs').addEventListener('click', event => {
+    if (!event.target.classList.contains('nav-link')) {
+      return;
+    }
+
+    activeLinkEl.classList.remove('active');
+    event.target.classList.add('active');
+    activeLinkEl = event.target;
+
+    textDivEl.textContent = panelText[event.target.parentElement.dataset.text];
+  });
+
+
+  /*
+  2. Необходимо сделать так, чтобы при изменении input'а менялся и размер шрифта
+  у элемента с id="inputDiv". Перемещение ползунка должно плавно увеличивать
+  шрифт у текста, никакого резкого увеличения шрифта не должно быть при
+  перетаскивании ползунка.
+   */
+
+  const divEl = document.getElementById('inputDiv');
+  const inputEl = document.querySelector('input');
+  inputEl.value = Number.parseInt(getComputedStyle(divEl).fontSize).toString();
+  inputEl.addEventListener('input', event => {
+    divEl.style.fontSize = `${event.target.value}px`;
+  });
+
+
+</script>
+</body>
+</html>
+
+lesson 2+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .products {
+      overflow: hidden;
+      margin-top: 40px;
+    }
+
+    .product {
+      float: left;
+      margin-right: 20px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <button class="menuButton" data-type="phones">Показать смартфоны</button>
+  <button class="menuButton" data-type="tablets">Показать планшеты</button>
+  <button class="menuButton" data-type="tv">Показать телевизоры</button>
+</header>
+
+<div class="products"></div>
+
+<script>
+  /*
+  1. Программист Паша уволился с работы и не закончил задачу.
+  Задача состояла в том, чтобы при клике на какую-либо кнопку в теге header
+  выводить продукты в div с классом products.
+  Продукты, которые надо вывести, валидны и прописаны в объекте products.
+  Однако, Паша явно сделал много ошибок в других кусках кода, вам необходимо
+  исправить все ошибки и внимательно проверить чтоб код работал правильно и
+  ничего лишнего не выводилось в div с классом products.
+  */
+
+  class Product {
+    constructor(id, name, price, imageUrl) {
+      this.id = id;
+      this.name = name;
+      this.price = price;
+      this.imageUrl = imageUrl;
+    }
+
+    /**
+     * @returns {string} html-разметка для товара
+     */
+    getProductMarkup() {
+      return `
+        <div class="product">
+            <div>${this.name}</div>
+            <img src="${this.imageUrl}" alt="">
+            <div>Цена: <span>${this.price}</span> р.</div>
+            <a href="https://example.com/producs/${this.id}">Подробнее</a>
+        </div>
+      `;
+    }
+  }
+
+  const products = {
+    phones: [
+      new Product(1, "Смартфон 1", "2533", "https://picsum.photos/seed/1/200"),
+      new Product(2, "Смартфон 2", "3123", "https://picsum.photos/seed/2/200"),
+      new Product(3, "Смартфон 3", "6123", "https://picsum.photos/seed/3/200"),
+    ],
+    tablets: [
+      new Product(4, "Плашнет 1", "5239", "https://picsum.photos/seed/4/200"),
+      new Product(5, "Плашнет 2", "6483", "https://picsum.photos/seed/5/200"),
+    ],
+    tv: [
+      new Product(6, "Телевизор 1", "4314", "https://picsum.photos/seed/6/200"),
+      new Product(7, "Телевизор 2", "5412", "https://picsum.photos/seed/7/200"),
+      new Product(8, "Телевизор 3", "3577", "https://picsum.photos/seed/8/200"),
+      new Product(9, "Телевизор 4", "8714", "https://picsum.photos/seed/9/200"),
+    ],
+  };
+
+  const productsEl = document.querySelector('.products');
+  document.querySelector('header').addEventListener('click', event => {
+    if (!event.target.classList.contains('menuButton')) {
+      return;
+    }
+    productsEl.innerHTML = products[event.target.dataset.type]
+      .map(product => product.getProductMarkup()).join('');
+  });
+
+</script>
+</body>
+</html>
+
+
+lesson 3++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+<body>
+<!--
+Необязательное задание.
+
+Ваша задача - создать функцию, которая может принимать любое неотрицательное
+целое число в качестве аргумента и возвращать число с теми же цифрами, но в
+порядке убывания.
+Если проще - переставьте цифры, чтобы получить максимально возможное число из
+данного набора цифр.
+-->
+<script>
+  "use strict";
+
+  /**
+   * Функция перемещает цифры получая наибольшее число.
+   * @param {number} n - Число, из цифр которого нужно составить наибольшее
+   * возможное число с теми же цифрами.
+   * @returns {number} - Набольшее число из набора цифр числа, переданного в
+   * параметр "n"
+   */
+  function descendingOrder(n) {
+     return +n.toString().split('').sort((a, b) => b - a).join('');
+        // return +Array.from(n.toString(), Number).sort((a, b) => b - a).join('');
+  }
+
+  console.log(descendingOrder(42145)); // 54421
+  console.log(descendingOrder(145263)); // 654321
+  console.log(descendingOrder(123456789)); // 987654321
+</script>
+</body>
+</html>
+
+
+
+lesson 4+++++++++++++++++++++++++++++++++++++++++++++++
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+<body>
+<!--
+Необязательное задание.
+
+Необходимо реализовать функцию-конструктор Rectangle.
+-->
+<script>
+  "use strict";
+
+  /**
+   * Returns the rectangle object with width and height parameters and
+   * getArea() method.
+   * @param {number} width - Rectangle width
+   * @param {number} height - Rectangle height
+   * @return {Rectangle}
+   */
+  function Rectangle(width, height) {
+      this.width = width;
+      this.height = height;
+  }
+
+  Rectangle.prototype.getArea = function (){
+
+     return  this.width * this.height;
+  }
+
+      
+
+  const r = new Rectangle(10, 20);
+  console.log(r.width); // 10
+  console.log(r.height); // 20
+  console.log(r.getArea()); // 200
+</script>
+</body>
+</html>
